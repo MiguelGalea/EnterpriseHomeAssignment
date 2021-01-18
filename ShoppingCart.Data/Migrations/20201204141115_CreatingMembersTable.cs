@@ -2,7 +2,7 @@
 
 namespace ShoppingCart.Data.Migrations
 {
-    public partial class creatingmemberschema : Migration
+    public partial class CreatingMembersTable : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

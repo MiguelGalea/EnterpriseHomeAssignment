@@ -11,7 +11,6 @@ namespace ShoppingCart.Domain.Models
         [Key]
         public int Id { get; set; }
 
-
         public virtual Product Product { get; set; }
         
         [ForeignKey("Product")]
@@ -19,6 +18,6 @@ namespace ShoppingCart.Domain.Models
 
         public string Email { get; set; }
 
-        public int Qty { get; set; }
+        public int Quantity { get; set; }
     }
 }

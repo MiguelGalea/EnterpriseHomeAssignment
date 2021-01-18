@@ -1,43 +1,42 @@
-﻿using System;
+﻿using Microsoft.IdentityModel.Protocols.OpenIdConnect;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
+//Code first approach (One used last year was Database first
 
-//Code first approach
 
 namespace ShoppingCart.Domain.Models
 {
-    //once you have updated your product with new columns >>>>>>>> ctrl + shift + b
-
     public class Product
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public Guid Id { get; set; } // C581B912-DF44-434B-8AD4-5343FC087507
+        public Guid ID {get; set;}
 
         [Required]
-        public string Name { get; set; }
+        public string Name {get; set;}
+        
         [Required]
-        public double Price { get; set; }
+        public double Price {get; set;}
+
+        public string Description {get; set;}
 
         [Required]
-        public string Description { get; set; }
-        [Required]
-        public virtual Category Category { get; set; } //this is the relationship
+        public virtual Category Category { get; set; }//This is the relationship
 
         [ForeignKey("Category")]
-        public int CategoryId { get; set; } //this is the actual foreign key; this is a way how to address the relationship
-
+        public int CategoryId { get; set; } //This is the actual foreign key; this is a way how to address the relationship
 
         public string ImageUrl { get; set; }
 
         public int Stock { get; set; }
 
         [DefaultValue(false)]
-        public bool Disable { get; set; } //to refresh the db,you must always run Add-Migration & Update-Database
+        public bool Disable { get; set; } //to refresh database always run Add -Migration & update-Database
 
     }
 }

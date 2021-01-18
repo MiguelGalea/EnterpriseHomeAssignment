@@ -10,11 +10,9 @@ namespace ShoppingCart.Domain.Models
         [Key]
         public Guid Id { get; set; }
 
-        public DateTime DatePlaced { get; set; }
+        public DateTime DatePlace { get; set; }
+
         public string UserEmail { get; set; }
-
-        
-
 
 
     }

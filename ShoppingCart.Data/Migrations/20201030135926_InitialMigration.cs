@@ -24,15 +24,15 @@ namespace ShoppingCart.Data.Migrations
                 name: "Products",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(nullable: false),
+                    ID = table.Column<Guid>(nullable: false),
                     Name = table.Column<string>(nullable: false),
                     Price = table.Column<double>(nullable: false),
-                    Description = table.Column<string>(nullable: false),
+                    Description = table.Column<string>(nullable: true),
                     CategoryId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Products", x => x.Id);
+                    table.PrimaryKey("PK_Products", x => x.ID);
                     table.ForeignKey(
                         name: "FK_Products_Categories_CategoryId",
                         column: x => x.CategoryId,

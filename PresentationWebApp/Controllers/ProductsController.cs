@@ -15,110 +15,111 @@ namespace PresentationWebApp.Controllers
     {
         private readonly IProductsService _productsService;
         private readonly ICategoriesService _categoriesService;
-        private IWebHostEnvironment _env;
-        public ProductsController(IProductsService productsService, ICategoriesService categoriesService,
-             IWebHostEnvironment env )
-        {
+        private readonly ICartsService _cartsService;
+        private IHostingEnvironment _env;
+
+        public ProductsController(IProductsService productsService, ICategoriesService categoriesService, IHostingEnvironment env) {
             _productsService = productsService;
             _categoriesService = categoriesService;
             _env = env;
         }
 
-        public IActionResult Index()
-        {
+        public IActionResult Index() {
             var list = _productsService.GetProducts();
+
             return View(list);
         }
 
-        [HttpPost]
-        public IActionResult Search(string keyword) //using a form, and the select list must have name attribute = category
+        public IActionResult CategorySearch(int category) //Using a Form, and the select list must have name attribute = category
         {
-            var list = _productsService.GetProducts(keyword).ToList();
 
+            //Create a method to filter the list using the category
+            var list = _productsService.GetProducts(category);
+
+
+            return RedirectToAction("Index", list);
+            
+        }
+
+        [HttpPost]
+        public IActionResult Search(string keyword) { //Using a form, and the select list must have name attribute = category
+            var list = _productsService.GetProducts(keyword).ToList();
+            
             return View("Index", list);
         }
 
-
-        public IActionResult Details(Guid id)
-        {
+        public IActionResult Details(Guid id) {
             var p = _productsService.GetProduct(id);
-            return View( p);
+
+            return View(p);
         }
 
-        //the engine will load a page with empty fields
+        //The engine will load a page with empty fields
         [HttpGet]
-        [Authorize (Roles ="Admin")] //is going to be accessed only by authenticated users
-        public IActionResult Create()
-        {
-            //fetch a list of categories
-            var listOfCategeories = _categoriesService.GetCategories();
+        [Authorize (Roles = "Admin")] //The create method is going to be accessed only by authenticated users
+        public IActionResult Create() {
+            //Feth a list of categories
+            var listOfCategories = _categoriesService.GetCategories();
 
-            //we pass the categories to the page
-            ViewBag.Categories = listOfCategeories;
+            //We pass the categories to the page
+            ViewBag.Categories = listOfCategories;
 
             return View();
         }
 
-        //here details input by the user will be received
+        
+        //Here details input by the user will be received
         [HttpPost]
         [Authorize(Roles = "Admin")]
-        public IActionResult Create(ProductViewModel data, IFormFile f)
-        {
+        public IActionResult Create(ProductViewModel data, IFormFile f) {
             try
             {
-                if(f !=  null)
-                {
-                    if(f.Length > 0)
-                    {
-                        //C:\Users\Ryan\source\repos\SWD62BEP\SWD62BEP\Solution3\PresentationWebApp\wwwroot
-                        string newFilename = Guid.NewGuid() + System.IO.Path.GetExtension(f.FileName);
-                        string newFilenameWithAbsolutePath = _env.WebRootPath +  @"\Images\" + newFilename;
+
+                if (f != null) {
+                    if (f.Length > 0) {
+                        //F:\School\Level 6 Year 2\Semester 1\Enterprise Programming\First Example\SWD62BEP\Presentation\PresentationWebApp\wwwroot
+                        string newFileName = Guid.NewGuid() + System.IO.Path.GetExtension(f.FileName);
+                        string newFileNameWithAbsolutePath = _env.WebRootPath + @"\images\" + newFileName;
                         
-                        using (var stream = System.IO.File.Create(newFilenameWithAbsolutePath))
-                        {
+                        using (var stream = System.IO.File.Create(newFileNameWithAbsolutePath)) {
                             f.CopyTo(stream);
                         }
-
-                        data.ImageUrl = @"\Images\" + newFilename;
+                        data.ImageUrl = @"\images\" + newFileName;
                     }
                 }
 
                 _productsService.AddProduct(data);
-
-                TempData["feedback"] = "Product was added successfully";
+                TempData["feedback"] = "Product was added Successfully";
             }
-            catch (Exception ex)
-            {
-                //log error
-                TempData["warning"] = "Product was not added!";
+            catch (Exception e) {
+                //Log error
+                TempData["warning"] = "Product was not added";
             }
 
-           var listOfCategeories = _categoriesService.GetCategories();
-           ViewBag.Categories = listOfCategeories;
+            //We resend the list of categories since the page will reload
+            var listOfCategories = _categoriesService.GetCategories();
+
+            //We pass the categories to the page
+            ViewBag.Categories = listOfCategories;
+
             return View(data);
-        
-        } //fiddler, burp, zap, postman
+        }
 
-        [Authorize(Roles = "Admin")]
-        public IActionResult Delete(Guid id)
-        {
+        [Authorize(Roles = "Admin")]    
+        public IActionResult Delete(Guid id) {
             try
             {
                 _productsService.DeleteProduct(id);
                 TempData["feedback"] = "Product was deleted";
             }
-            catch (Exception ex)
-            {
-                //log your error 
-
+            catch (Exception ex) {
+                //Log your error
                 TempData["warning"] = "Product was not deleted"; //Change from ViewData to TempData
             }
 
             return RedirectToAction("Index");
+
         }
-
-
-
 
     }
 }

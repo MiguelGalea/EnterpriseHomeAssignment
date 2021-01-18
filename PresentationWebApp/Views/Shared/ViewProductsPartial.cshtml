@@ -1,23 +1,28 @@
 ﻿@model IEnumerable<ShoppingCart.Application.ViewModels.ProductViewModel>
 
-
 @foreach (var p in Model)
 {
-    <div class="col-6">
-        <div class="card" style="width: 18rem;">
-            <img src="@p.ImageUrl" class="card-img-top image" alt="...">
+    <div class="col-4 mt-5">
+        <div class="card">
+            <img src="@p.ImageUrl" class="card-img-top img-thumbnail" style="height:300px;" alt="...">
             <div class="card-body">
-                <h5 class="card-title">@p.Name</h5>
-                <p class="card-text">@p.Price</p>
-                
-                <a href="/Products/Details?id=@p.Id" class="btn btn-primary">View Specification</a>
+                <h5 class="card-title text-truncate">@p.Name</h5>
+                <p class="card-text">&euro;@p.Price</p>
 
+                <a href="/Products/Details?id=@p.Id" class="btn btn-block btn-primary m-1">View Specification</a>
+                <a href="#" class="btn btn-block btn-warning m-1">Add to cart</a>
                 @if (User.IsInRole("Admin"))
                 {
-                    <a href="/Products/Delete?id=@p.Id" class="btn btn-danger">Delete</a>
+                    <a href="/Products/Delete?id=@p.Id" class="btn btn-block btn-danger m-1">Delete</a>
                 }
 
             </div>
         </div>
+
+        @if (User.IsInRole("Admin"))
+        {
+            <a class="btn btn-dark mt-2" href="products/create">Add new product</a>
+        }
+
     </div>
 }

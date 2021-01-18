@@ -56,6 +56,18 @@ namespace PresentationWebApp.Areas.Identity.Pages.Account
             public string Email { get; set; }
 
             [Required]
+            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 1)]
+            [DataType(DataType.Text)]
+            [Display(Name = "FirstName")]
+            public string FirstName { get; set; }
+
+            [Required]
+            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 1)]
+            [DataType(DataType.Text)]
+            [Display(Name = "LastName")]
+            public string LastName { get; set; }
+
+            [Required]
             [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
             [DataType(DataType.Password)]
             [Display(Name = "Password")]
@@ -65,13 +77,6 @@ namespace PresentationWebApp.Areas.Identity.Pages.Account
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
-
-            [Required]
-            public string FirstName { get; set; }
-            [Required]
-            public string LastName { get; set; }
-
-
         }
 
         public async Task OnGetAsync(string returnUrl = null)
@@ -87,23 +92,19 @@ namespace PresentationWebApp.Areas.Identity.Pages.Account
             if (ModelState.IsValid)
             {
                 var user = new IdentityUser { UserName = Input.Email, Email = Input.Email };
-                var result = await _userManager.CreateAsync(user, Input.Password); // >>>> AspNetUsers
+                var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
-
-                    _membersService.AddMember(   // >>>> Members
-                        new ShoppingCart.Application.ViewModels.MemberViewModel()
-                    { 
-                        Email  = Input.Email,
-                         FirstName = Input.FirstName,
-                          LastName = Input.LastName
-                        }
+                    // >>>Members
+                    _membersService.AddMember(new ShoppingCart.Application.ViewModels.MemberViewModel()
+                    {
+                        Email = Input.Email,
+                        FirstName = Input.FirstName,
+                        LastName = Input.LastName
+                    }
                     );
 
-
                     await _userManager.AddToRoleAsync(user, "User");
-                    
-
 
                     _logger.LogInformation("User created a new account with password.");
 

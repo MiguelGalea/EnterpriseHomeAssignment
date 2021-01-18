@@ -8,22 +8,19 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace PresentationWebApp.Controllers
 {
-    [Authorize(Roles="Admin")]
+    [Authorize(Roles = "Admin")]
     public class AdminController : Controller
     {
         UserManager<IdentityUser> _userManager;
-        public AdminController(UserManager<IdentityUser> userManager)
-        {
-            _userManager = userManager;
 
+        public AdminController(UserManager<IdentityUser> userManager) {
+            _userManager = userManager;
         }
 
         [HttpGet]
-        public IActionResult Allocate()
-        {
+        public IActionResult Allocate() {
             return View();
         }
-
 
         [HttpPost]
         public IActionResult Allocate(string email, string role)

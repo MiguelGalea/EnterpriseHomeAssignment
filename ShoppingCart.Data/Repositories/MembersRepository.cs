@@ -7,17 +7,16 @@ using System.Text;
 
 namespace ShoppingCart.Data.Repositories
 {
-    public class MembersRepository: IMembersRepository
+    public class MembersRepository : IMembersRepository
     {
         ShoppingCartDbContext _context;
+
         public MembersRepository(ShoppingCartDbContext context)
         {
             _context = context;
-
         }
 
-        public void AddMember(Member m)
-        {
+        public void AddMember(Member m) {
             _context.Members.Add(m);
             _context.SaveChanges();
         }

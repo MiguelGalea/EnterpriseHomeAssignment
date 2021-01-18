@@ -10,8 +10,8 @@ using ShoppingCart.Data.Context;
 namespace ShoppingCart.Data.Migrations
 {
     [DbContext(typeof(ShoppingCartDbContext))]
-    [Migration("20201130092424_DisableProductMigration")]
-    partial class DisableProductMigration
+    [Migration("20201114095144_AddingImageURl")]
+    partial class AddingImageURl
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -39,7 +39,7 @@ namespace ShoppingCart.Data.Migrations
 
             modelBuilder.Entity("ShoppingCart.Domain.Models.Product", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<Guid>("ID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier")
                         .HasDefaultValueSql("NEWID()");
@@ -48,11 +48,7 @@ namespace ShoppingCart.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("Disable")
-                        .HasColumnType("bit");
 
                     b.Property<string>("ImageUrl")
                         .HasColumnType("nvarchar(max)");
@@ -64,10 +60,7 @@ namespace ShoppingCart.Data.Migrations
                     b.Property<double>("Price")
                         .HasColumnType("float");
 
-                    b.Property<int>("Stock")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
+                    b.HasKey("ID");
 
                     b.HasIndex("CategoryId");
 

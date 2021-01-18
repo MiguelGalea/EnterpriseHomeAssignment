@@ -33,18 +33,15 @@ namespace PresentationWebApp
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
 
-          
+            /* services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+                 .AddEntityFrameworkStores<ApplicationDbContext>();
+            */
 
-
-           /* services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddEntityFrameworkStores<ApplicationDbContext>();
-           */
-
-          /*  services.AddIdentity<IdentityUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = false)
-               .AddDefaultUI()
-               .AddEntityFrameworkStores<ApplicationDbContext>()
-               .AddDefaultTokenProviders();
-          */
+            /*  services.AddIdentity<IdentityUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = false)
+                 .AddDefaultUI()
+                 .AddEntityFrameworkStores<ApplicationDbContext>()
+                 .AddDefaultTokenProviders();
+            */
 
 
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
@@ -56,7 +53,7 @@ namespace PresentationWebApp
             services.AddRazorPages();
 
             DependencyContainer.RegisterServices(services
-             ,  Configuration.GetConnectionString("DefaultConnection"));
+             , Configuration.GetConnectionString("DefaultConnection"));
 
 
         }

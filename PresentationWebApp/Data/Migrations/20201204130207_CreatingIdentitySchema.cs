@@ -2,7 +2,7 @@
 
 namespace PresentationWebApp.Data.Migrations
 {
-    public partial class creatingidentityschema : Migration
+    public partial class CreatingIdentitySchema : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

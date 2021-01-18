@@ -4,7 +4,7 @@ using System.Text;
 
 namespace ShoppingCart.Application.Interfaces
 {
-    public interface IOrdersService
+    public interface IOrderService
     {
         void Checkout(string email);
     }

@@ -9,5 +9,9 @@ namespace ShoppingCart.Domain.Interfaces
     public interface ICategoriesRepository
     {
         IQueryable<Category> GetCategories();
+
+        Category GetCategory(int id);
+
+        int AddCategory(Category category);
     }
 }

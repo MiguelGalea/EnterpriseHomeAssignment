@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <UserSecretsId>aspnet-PresentationWebApp-A6444DE0-A98D-4605-AD05-61DDDE17089A</UserSecretsId>
+    <UserSecretsId>aspnet-PresentationWebApp-D321E37B-7E74-462E-9B5E-3EFD8408F88A</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -26,7 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\Images\" />
+    <Folder Include="wwwroot\images\" />
   </ItemGroup>
 
 </Project>

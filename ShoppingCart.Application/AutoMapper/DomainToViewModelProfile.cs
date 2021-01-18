@@ -7,21 +7,17 @@ using System.Text;
 
 namespace ShoppingCart.Application.AutoMapper
 {
+    //Convert
+    //Application (model) >> Domain (Classes)
     public class DomainToViewModelProfile: Profile
     {
-
-        //convert
-        //Application (view models) >> Domain (classes)
-        public DomainToViewModelProfile()
-        {
-            CreateMap<Product, ProductViewModel>(); //.ForMember(x=>x.DestColumn, opt=> opt.MapFrom(src=>src.SrcColumn)) ; 
-            //informing the automapper library that we are mapping /linking Product onto ProductViewModel
-
+        public DomainToViewModelProfile() {
+            CreateMap<Product, ProductViewModel>();//Since names are the same .ForMember(x=>x.Name, opt=>opt.MapFrom(src=>src.Name));
+            //Informing the automapper library that we are mapping (linking) Product Class onto the ProductViewModel
+            
             CreateMap<Category, CategoryViewModel>();
 
             CreateMap<Member, MemberViewModel>();
-
         }
-
     }
 }

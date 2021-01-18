@@ -9,28 +9,26 @@ namespace PresentationWebApp.Controllers
     public class SupportController : Controller
     {
         [HttpGet]
-        public IActionResult Contact() //this will be used to load the page
+        public IActionResult Contact() //This will be used to load the page
         {
             return View();
         }
 
         [HttpPost]
-        public IActionResult Contact(string email, string query) //this will be used to handle the form submission
+        public IActionResult Contact(string email, string query) //This will be used to handle the form submission
         {
-
-            //...inform the responsible staff
-
-            /*
-             * feedback = [Thank you for getting in touch with us. We will answer back asap]
-             * warning = [Type in some question]
-             * key = [value]
-             * key = [value]
-             */
+            //Inform the responsible staff about the query
 
             if (string.IsNullOrEmpty(query))
-                ViewData["warning"] = "Type in some question";
-            else
+            {
+                //Check if is empty
+                ViewData["warning"] = "Please type something";
+            }
+            else {
+                //Inform the user that the query was received
                 ViewData["feedback"] = "Thank you for getting in touch with us. We will answer back asap";
+
+            }
 
             return View();
         }

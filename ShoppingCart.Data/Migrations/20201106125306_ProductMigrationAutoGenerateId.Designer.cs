@@ -10,8 +10,8 @@ using ShoppingCart.Data.Context;
 namespace ShoppingCart.Data.Migrations
 {
     [DbContext(typeof(ShoppingCartDbContext))]
-    [Migration("20201030135912_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20201106125306_ProductMigrationAutoGenerateId")]
+    partial class ProductMigrationAutoGenerateId
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -39,15 +39,15 @@ namespace ShoppingCart.Data.Migrations
 
             modelBuilder.Entity("ShoppingCart.Domain.Models.Product", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<Guid>("ID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("NEWID()");
 
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
@@ -57,7 +57,7 @@ namespace ShoppingCart.Data.Migrations
                     b.Property<double>("Price")
                         .HasColumnType("float");
 
-                    b.HasKey("Id");
+                    b.HasKey("ID");
 
                     b.HasIndex("CategoryId");
 

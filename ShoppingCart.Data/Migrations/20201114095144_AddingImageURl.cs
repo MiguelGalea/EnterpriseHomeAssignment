@@ -2,7 +2,7 @@
 
 namespace ShoppingCart.Data.Migrations
 {
-    public partial class AddingImageUrl : Migration
+    public partial class AddingImageURl : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

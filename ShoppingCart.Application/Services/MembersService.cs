@@ -8,9 +8,10 @@ using System.Text;
 
 namespace ShoppingCart.Application.Services
 {
-   public class MembersService: IMembersService
+    public class MembersService : IMembersService
     {
         private IMembersRepository _membersRepo;
+
         public MembersService(IMembersRepository membersRepository)
         {
             _membersRepo = membersRepository;
