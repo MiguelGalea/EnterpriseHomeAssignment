@@ -15,25 +15,12 @@ namespace ShoppingCart.Data.Repositories
         {
             _context = context;
         }
-        public int AddCartProduct(Cart cart)
-        {
-            _context.Carts.Add(cart);
-            _context.SaveChanges();
-
-            return cart.Id;
-        }
-
-        public void DeleteCartProduct(Guid id, string email)
+        public Cart GetProduct(Guid id)
         {
             throw new NotImplementedException();
         }
 
-        public IQueryable<Cart> GetCart(string email)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Product GetCartProducts(Guid id)
+        public IQueryable<Cart> GetProducts()
         {
             throw new NotImplementedException();
         }

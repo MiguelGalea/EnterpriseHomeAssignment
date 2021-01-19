@@ -6,7 +6,7 @@ using System.Text;
 
 namespace ShoppingCart.Application.Services
 {
-    public class OrdersService: IOrderService
+    class OrdersService: IOrderService
     {
 
         /*

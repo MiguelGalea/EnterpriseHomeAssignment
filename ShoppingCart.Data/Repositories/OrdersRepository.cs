@@ -6,7 +6,7 @@ using System.Text;
 
 namespace ShoppingCart.Data.Repositories
 {
-    public class OrdersRepository: IOrdersRepository
+    class OrdersRepository: IOrdersRepository
     {
         public void AddOrder(Order order)
         {

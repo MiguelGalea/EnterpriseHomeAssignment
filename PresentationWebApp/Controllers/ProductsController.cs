@@ -15,6 +15,7 @@ namespace PresentationWebApp.Controllers
     {
         private readonly IProductsService _productsService;
         private readonly ICategoriesService _categoriesService;
+        private readonly ICartsService _cartsService;
         private IHostingEnvironment _env;
 
         public ProductsController(IProductsService productsService, ICategoriesService categoriesService, IHostingEnvironment env) {

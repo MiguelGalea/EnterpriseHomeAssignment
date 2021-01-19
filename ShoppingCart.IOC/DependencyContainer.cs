@@ -33,15 +33,6 @@ namespace ShoppingCart.IOC
 
             services.AddScoped<IMembersRepository, MembersRepository>();
             services.AddScoped<IMembersService, MembersService>();
-
-            services.AddScoped<IOrdersRepository,OrdersRepository>();
-            services.AddScoped<IOrderService, OrdersService>();
-
-            /*services.AddScoped<IOrderDetailRepository, OrderDetailRepository>();
-            services.AddScoped<IOrderDetailService, OrderDetailService>();*/
-
-            services.AddScoped<ICartsRepository, CartsRepository>();
-            services.AddScoped<ICartsService, CartsService>();
             //Explain AddScoped
             //Move Initialization of ShoppingCartDbContext to here and refine the dependencies
 

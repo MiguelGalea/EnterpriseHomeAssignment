@@ -2,42 +2,27 @@
 
 @foreach (var p in Model)
 {
-<div class="col-4 mt-5">
-    <div class="card">
-        <img src="@p.ImageUrl" class="card-img-top img-thumbnail" style="height:300px;" alt="...">
-        <div class="card-body">
-            <h5 class="card-title text-truncate">@p.Name</h5>
-            <p class="card-text">&euro;@p.Price</p>
+    <div class="col-4 mt-5">
+        <div class="card">
+            <img src="@p.ImageUrl" class="card-img-top img-thumbnail" style="height:300px;" alt="...">
+            <div class="card-body">
+                <h5 class="card-title text-truncate">@p.Name</h5>
+                <p class="card-text">&euro;@p.Price</p>
 
-            <form asp-controller="Cart" asp-action="AddToCart">
-                <div class="row">
-                    <div class="btn-block">
-                        <input type="number" class="form-control" name="quantity" min="1" value="1" />
-                        <input type="hidden" name="Id" value="@p.Id" />
-                    </div>
-                    <div class="btn-block m-1">
-                        <input type="submit" value="Add To Cart" class="btn btn-block btn-warning" />
-                    </div>
-                </div>
-            </form>
+                <a href="/Products/Details?id=@p.Id" class="btn btn-block btn-primary m-1">View Specification</a>
+                <a href="#" class="btn btn-block btn-warning m-1">Add to cart</a>
+                @if (User.IsInRole("Admin"))
+                {
+                    <a href="/Products/Delete?id=@p.Id" class="btn btn-block btn-danger m-1">Delete</a>
+                }
 
-            <a href="/Products/Details?id=@p.Id" class="btn btn-block btn-primary">View Specification</a>
-
-            @if (User.IsInRole("Admin"))
-            {
-                 <a href="/Products/Delete?id=@p.Id" class="btn btn-block btn-danger m-1">Delete</a>
-            }
-
+            </div>
         </div>
-    </div>
-</div><br />
 
-}
+        @if (User.IsInRole("Admin"))
+        {
+            <a class="btn btn-dark mt-2" href="products/create">Add new product</a>
+        }
 
-@if (User.IsInRole("Admin"))
-{
-    <div class="row">
-        <a class="btn btn-dark btn-block" href="products/create">Add new product</a> 
     </div>
 }
-
