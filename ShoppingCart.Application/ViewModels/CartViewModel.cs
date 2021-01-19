@@ -6,7 +6,7 @@ namespace ShoppingCart.Application.ViewModels
 {
     public class CartViewModel
     {
-        public int id { get; set; }
+        public int Id { get; set; }
 
         public ProductViewModel Product { get; set; }
 
