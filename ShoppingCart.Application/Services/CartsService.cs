@@ -1,8 +1,11 @@
 ﻿using AutoMapper;
 using ShoppingCart.Application.Interfaces;
+using ShoppingCart.Application.ViewModels;
 using ShoppingCart.Domain.Interfaces;
+using ShoppingCart.Domain.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace ShoppingCart.Application.Services
@@ -16,6 +19,31 @@ namespace ShoppingCart.Application.Services
         {
             _cartsRepo = cartsRepository;
             _mapper = mapper;
+        }
+
+        public void AddCartProduct(CartViewModel cart)
+        {
+            var addCart = _mapper.Map<Cart>(cart);
+
+            addCart.Product_FK = addCart.Product.ID;
+            addCart.Product = null;
+
+            _cartsRepo.AddCartProduct(addCart);
+        }
+
+        public ProductViewModel GetCartProducts(Guid id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IQueryable<CartViewModel> GetCart(string email)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DeleteCartProduct(Guid id, string email)
+        {
+            throw new NotImplementedException();
         }
     }
 }
