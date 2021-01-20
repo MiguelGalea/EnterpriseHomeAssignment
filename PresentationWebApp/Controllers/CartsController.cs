@@ -35,17 +35,51 @@ namespace PresentationWebApp.Controllers
         [HttpPost]
         public IActionResult AddToCart()
         {
-            CartViewModel cart = new CartViewModel();
-            int quantity = int.Parse(Request.Form["quantity"]);
-            string productId = Request.Form["Id"];
-            string email = User.Identity.Name;
+            try
+            {
+                int quantity = int.Parse(Request.Form["quantity"]);
+                string productId = Request.Form["Id"];
+                string email = User.Identity.Name;
 
-            cart.Email = email;
-            cart.Quantity = quantity;
-            cart.Product = _productsService.GetProduct(Guid.Parse(productId));
+                bool doubleProduct = false;
 
-            _cartsService.AddCartProduct(cart);
+                IList<CartViewModel> userCart = _cartsService.GetCart(email).ToArray<CartViewModel>();
+                foreach (var prod in userCart)
+                {
+                    ProductViewModel productDouble = _productsService.GetProduct(Guid.Parse(productId));
+                    if (prod.Product.Id == productDouble.Id)
+                    {
+                        doubleProduct = true;
 
+                        CartViewModel cartProd = new CartViewModel();
+                        cartProd.Quantity = prod.Quantity + quantity;
+                        cartProd.Product = _productsService.GetProduct(Guid.Parse(productId));
+                        cartProd.Email = email;
+
+                        _cartsService.DeleteCartProduct(prod.Id);
+
+                        _cartsService.AddCartProduct(cartProd);
+                        TempData["feedback"] = "Product added to cart successfully";
+                    }
+                }
+
+                if (doubleProduct == false)
+                {
+                    CartViewModel cart = new CartViewModel();
+                    cart.Email = email;
+                    cart.Quantity = quantity;
+                    cart.Product = _productsService.GetProduct(Guid.Parse(productId));
+
+                    _cartsService.AddCartProduct(cart);
+
+                    TempData["feedback"] = "Product added to cart successfully";
+                }
+            }
+            catch
+            {
+                TempData["warning"] = "Product was not added to cart";
+            }
+            
             return RedirectToAction("Index", "Products");
         }
 
