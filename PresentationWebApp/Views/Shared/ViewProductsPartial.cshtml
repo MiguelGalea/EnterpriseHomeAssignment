@@ -2,40 +2,40 @@
 
 @foreach (var p in Model)
 {
-<div class="col-4 mt-5">
-    <div class="card">
-        <img src="@p.ImageUrl" class="card-img-top img-thumbnail" style="height:300px;" alt="...">
-        <div class="card-body">
-            <h5 class="card-title text-truncate">@p.Name</h5>
-            <p class="card-text">&euro;@p.Price</p>
+    <div class="col-3 mt-5 mb-5">
+        <div class="card" id="product">
+            <img src="@p.ImageUrl" class="card-img-top img-thumbnail" alt="...">
+            <div class="card-body">
+                <h5 class="card-title text-truncate">@p.Name</h5>
+                <p class="card-text">&euro;@p.Price</p>
 
-            <form asp-controller="Carts" asp-action="AddToCart">
-                <div class="row">
-                    <div class="m-1">
-                        <input type="number" class="form-control" name="quantity" min="1" value="1" />
-                        <input type="hidden" name="Id" value="@p.Id" />
+                <form asp-controller="Carts" asp-action="AddToCart">
+                    <div class="row">
+                        <div class="m-1">
+                            <input type="number" class="form-control offset-1" name="quantity" min="1" value="1" />
+                            <input type="hidden" name="Id" value="@p.Id" />
+                        </div>
+                        <div class="m-1">
+                            <input type="submit" value="Add To Cart" class="btn btn-block btn-warning offset-6" />
+                        </div>
                     </div>
-                    <div class="m-1">
-                        <input type="submit" value="Add To Cart" class="btn btn-block btn-warning" />
-                    </div>
-                </div>
-            </form>
+                </form>
 
-            <a href="/Products/Details?id=@p.Id" class="btn btn-block btn-primary">View Specification</a>
+                <a href="/Products/Details?id=@p.Id" class="btn btn-block btn-primary">View Specification</a>
 
-            @if (User.IsInRole("Admin"))
-            {
-                 <a href="/Products/Delete?id=@p.Id" class="btn btn-block btn-danger mt-1">Delete</a>
-            }
+                @if (User.IsInRole("Admin"))
+                {
+                    <a href="/Products/Disable?id=@p.Id" class="btn btn-block btn-secondary mt-1">Hide Product</a>
+                    <a href="/Products/Delete?id=@p.Id" class="btn btn-block btn-danger mt-1">Delete</a>
+                }
 
+            </div>
         </div>
     </div>
-</div><br />
-
 }
 
 @if (User.IsInRole("Admin"))
 {
-     <a class="btn btn-dark btn-block" href="products/create">Add new product</a> 
+    <a class="btn btn-dark btn-block" href="products/create">Add new product</a>
 }
 

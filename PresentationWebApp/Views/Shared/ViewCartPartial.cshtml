@@ -2,19 +2,21 @@
 
 @foreach (var c in Model)
 {
-    <div class="col-4 mt-5">
-        <div class="card">
-            <img src="@c.Product.ImageUrl" class="card-img-top img-thumbnail" style="height:300px;" alt="...">
-            <div class="card-body">
-                <h5 class="card-title text-truncate">@c.Product.Name</h5>
-                <p class="card-text">&euro;@c.Product.Price</p>
-                <p class="card-text">Quantity: @c.Quantity</p>
+    <div class="row">
+        <div class="col-4 mt-5">
+            <div class="card">
+                <img src="@c.Product.ImageUrl" class="card-img-top img-thumbnail" style="height:300px;" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title text-truncate">@c.Product.Name</h5>
+                    <p class="card-text">&euro;@c.Product.Price</p>
+                    <p class="card-text">Quantity: @c.Quantity</p>
 
-                <a href="/Products/Details?id=@c.Product.Id" class="btn btn-block btn-primary m-1">View Specification</a>
-                <a href="/Carts/DeleteFromCart?id=@c.Id" class="btn btn-block btn-danger m-1">Remove from cart</a>
+                    <a href="/Products/Details?id=@c.Product.Id" class="btn btn-block btn-primary m-1">View Specification</a>
+                    <a href="/Carts/DeleteFromCart?id=@c.Id" class="btn btn-block btn-danger m-1">Remove from cart</a>
 
+                </div>
             </div>
-        </div>
 
+        </div>
     </div>
 }

@@ -130,7 +130,7 @@ namespace ShoppingCart.Application.Services
 
         public void DisableProduct(Guid id)
         {
-            throw new NotImplementedException();
+            _productsRepo.DisableProduct(id);
         }
     }
 }

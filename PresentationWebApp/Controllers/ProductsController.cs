@@ -110,9 +110,26 @@ namespace PresentationWebApp.Controllers
                 _productsService.DeleteProduct(id);
                 TempData["feedback"] = "Product was deleted";
             }
-            catch (Exception ex) {
-                //Log your error
-                TempData["warning"] = "Product was not deleted"; //Change from ViewData to TempData
+            catch
+            {
+                TempData["warning"] = "Product was not deleted";
+            }
+
+            return RedirectToAction("Index");
+
+        }
+
+        [Authorize(Roles = "Admin")]
+        public IActionResult Disable(Guid id)
+        {
+            try
+            {
+                _productsService.DisableProduct(id);
+                TempData["feedback"] = "Product was disabled";
+            }
+            catch
+            {
+                TempData["warning"] = "Product was not disabled";
             }
 
             return RedirectToAction("Index");

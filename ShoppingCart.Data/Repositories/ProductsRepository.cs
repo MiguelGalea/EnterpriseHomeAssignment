@@ -17,7 +17,6 @@ namespace ShoppingCart.Data.Repositories
             _context = context;
         }
 
-
         public Guid AddProduct(Product p)
         {
             //Shopping
