@@ -10,11 +10,11 @@ namespace ShoppingCart.Application.Interfaces
     {
         IQueryable<CartViewModel> GetCart(string email);
 
-        ProductViewModel GetCartProducts(Guid id);
+        CartViewModel GetCartProduct(int id);
 
         void AddCartProduct(CartViewModel product);
 
-        void DeleteCartProduct(Guid id, string email);
+        void DeleteCartProduct(int id);
 
     }
 }

@@ -23,19 +23,20 @@ namespace ShoppingCart.Data.Repositories
             return cart.Id;
         }
 
-        public void DeleteCartProduct(Guid id, string email)
+        public void DeleteCartProduct(Cart c)
         {
-            throw new NotImplementedException();
+            _context.Carts.Remove(c);
+            _context.SaveChanges();
         }
 
         public IQueryable<Cart> GetCart(string email)
         {
-            throw new NotImplementedException();
+            return _context.Carts;
         }
 
-        public Product GetCartProducts(Guid id)
+        public Cart GetCartProduct(int id)
         {
-            throw new NotImplementedException();
+            return _context.Carts.SingleOrDefault(x => x.Id == id);
         }
     }
 }

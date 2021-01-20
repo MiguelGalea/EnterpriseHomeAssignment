@@ -10,10 +10,10 @@ namespace ShoppingCart.Domain.Interfaces
     {
         IQueryable<Cart> GetCart(string email);
 
-        Product GetCartProducts(Guid id);
+        Cart GetCartProduct(int id);
 
         int AddCartProduct(Cart cart);
 
-        void DeleteCartProduct(Guid id, string email);
+        void DeleteCartProduct(Cart c);
     }
 }

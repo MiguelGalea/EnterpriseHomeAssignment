@@ -11,22 +11,25 @@ using System.Threading.Tasks;
 
 namespace PresentationWebApp.Controllers
 {
-    public class CartController : Controller
+    public class CartsController : Controller
     {
         private readonly IProductsService _productsService;
         private readonly ICartsService _cartsService;
         private IHostingEnvironment _env;
 
-        public CartController(IProductsService productsService, ICartsService cartsService, IHostingEnvironment env)
+        public CartsController(IProductsService productsService, ICartsService cartsService, IHostingEnvironment env)
         {
             _productsService = productsService;
             _cartsService = cartsService;
             _env = env;
         }
 
+        [Authorize(Roles = "User, Admin")]
         public IActionResult Index()
         {
-            return View();
+            var list = _cartsService.GetCart(User.Identity.Name);
+
+            return View(list);
         }
 
         [HttpPost]
@@ -44,6 +47,33 @@ namespace PresentationWebApp.Controllers
             _cartsService.AddCartProduct(cart);
 
             return RedirectToAction("Index", "Products");
+        }
+
+        public IActionResult GetCart(string email)
+        {
+            var list = _cartsService.GetCart(email);
+
+            return RedirectToAction("Index", list);
+
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "User, Admin")]
+        public IActionResult DeleteFromCart(int id)
+        {
+            try
+            {
+                _cartsService.DeleteCartProduct(id);
+                TempData["feedback"] = "Product was removed";
+            }
+            catch (Exception ex)
+            {
+                //Log your error
+                TempData["warning"] = "Product was not removed";
+            }
+
+            return RedirectToAction("Index");
+
         }
     }
 }

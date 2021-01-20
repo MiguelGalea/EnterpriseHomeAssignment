@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using ShoppingCart.Application.Interfaces;
 using ShoppingCart.Application.ViewModels;
 using ShoppingCart.Domain.Interfaces;
@@ -31,19 +32,29 @@ namespace ShoppingCart.Application.Services
             _cartsRepo.AddCartProduct(addCart);
         }
 
-        public ProductViewModel GetCartProducts(Guid id)
+        public CartViewModel GetCartProduct(int id)
         {
-            throw new NotImplementedException();
+            var cartProducts = _cartsRepo.GetCartProduct(id);
+            var myCart = _mapper.Map<CartViewModel>(cartProducts);
+
+            return myCart;
         }
 
         public IQueryable<CartViewModel> GetCart(string email)
         {
-            throw new NotImplementedException();
+            var myCart = _cartsRepo.GetCart(email).ProjectTo<CartViewModel>(_mapper.ConfigurationProvider);
+
+            return myCart;
         }
 
-        public void DeleteCartProduct(Guid id, string email)
+        public void DeleteCartProduct(int id)
         {
-            throw new NotImplementedException();
+            var deleteProd = _cartsRepo.GetCartProduct(id);
+
+            if (deleteProd != null)
+            {
+                _cartsRepo.DeleteCartProduct(deleteProd);
+            }
         }
     }
 }

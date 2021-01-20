@@ -35,7 +35,6 @@ namespace PresentationWebApp.Controllers
             //Create a method to filter the list using the category
             var list = _productsService.GetProducts(category);
 
-
             return RedirectToAction("Index", list);
             
         }
