@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ShoppingCart.Application.Interfaces;
 using ShoppingCart.Application.ViewModels;
+using X.PagedList;
 
 namespace PresentationWebApp.Controllers
 {
@@ -23,8 +24,12 @@ namespace PresentationWebApp.Controllers
             _env = env;
         }
 
-        public IActionResult Index() {
-            var list = _productsService.GetProducts();
+        public IActionResult Index(int? page) {
+            //https://www.youtube.com/watch?v=vnxN_zBisIo pagination tutorial
+            var pageNum = page ?? 1; //default page 1
+            int pageCap = 10; //Maximum 10 products per page
+
+            var list = _productsService.GetProducts().ToPagedList(pageNum, pageCap);
 
             var categories = _categoriesService.GetCategories();
             ViewBag.Categories = categories;
@@ -33,10 +38,10 @@ namespace PresentationWebApp.Controllers
         }
 
         [HttpPost]
-        public IActionResult CategoriesFilter(int category) //Using a Form, and the select list must have name attribute = category
+        public IActionResult CategoriesFilter(int category, int? page) //Using a Form, and the select list must have name attribute = category
         {
 
-            var list = _productsService.GetProducts(category).ToList();
+            var list = _productsService.GetProducts(category).ToPagedList();
 
             var categories = _categoriesService.GetCategories();
             ViewBag.Categories = categories;
@@ -46,8 +51,8 @@ namespace PresentationWebApp.Controllers
         }
 
         [HttpPost]
-        public IActionResult Search(string keyword) {
-            var list = _productsService.GetProducts(keyword).ToList();
+        public IActionResult Search(string keyword, int? page) {
+            var list = _productsService.GetProducts(keyword).ToPagedList();
 
             var categories = _categoriesService.GetCategories();
             ViewBag.Categories = categories;
@@ -73,7 +78,6 @@ namespace PresentationWebApp.Controllers
 
             return View();
         }
-
         
         //Here details input by the user will be received
         [HttpPost]
@@ -81,10 +85,9 @@ namespace PresentationWebApp.Controllers
         public IActionResult Create(ProductViewModel data, IFormFile f) {
             try
             {
-
                 if (f != null) {
                     if (f.Length > 0) {
-                        //F:\School\Level 6 Year 2\Semester 1\Enterprise Programming\First Example\SWD62BEP\Presentation\PresentationWebApp\wwwroot
+                        
                         string newFileName = Guid.NewGuid() + System.IO.Path.GetExtension(f.FileName);
                         string newFileNameWithAbsolutePath = _env.WebRootPath + @"\images\" + newFileName;
                         
@@ -93,13 +96,12 @@ namespace PresentationWebApp.Controllers
                         }
                         data.ImageUrl = @"\images\" + newFileName;
                     }
-                }
 
-                _productsService.AddProduct(data);
-                TempData["feedback"] = "Product was added Successfully";
+                    _productsService.AddProduct(data);
+                    TempData["feedback"] = "Product was added Successfully";
+                }
             }
             catch (Exception e) {
-                //Log error
                 TempData["warning"] = "Product was not added";
             }
 
