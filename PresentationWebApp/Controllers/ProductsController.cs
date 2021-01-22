@@ -26,23 +26,32 @@ namespace PresentationWebApp.Controllers
         public IActionResult Index() {
             var list = _productsService.GetProducts();
 
+            var categories = _categoriesService.GetCategories();
+            ViewBag.Categories = categories;
+
             return View(list);
         }
 
-        public IActionResult CategorySearch(int category) //Using a Form, and the select list must have name attribute = category
+        [HttpPost]
+        public IActionResult CategoriesFilter(int category) //Using a Form, and the select list must have name attribute = category
         {
 
-            //Create a method to filter the list using the category
-            var list = _productsService.GetProducts(category);
+            var list = _productsService.GetProducts(category).ToList();
 
-            return RedirectToAction("Index", list);
+            var categories = _categoriesService.GetCategories();
+            ViewBag.Categories = categories;
+
+            return View("Index", list);
             
         }
 
         [HttpPost]
-        public IActionResult Search(string keyword) { //Using a form, and the select list must have name attribute = category
+        public IActionResult Search(string keyword) {
             var list = _productsService.GetProducts(keyword).ToList();
-            
+
+            var categories = _categoriesService.GetCategories();
+            ViewBag.Categories = categories;
+
             return View("Index", list);
         }
 
