@@ -25,25 +25,8 @@ namespace ShoppingCart.Application.Services
 
         public void AddProduct(ProductViewModel product)
         {
-            //Changing this using automapper later on
-
-            //Ctrl + .
-
-            //Old Method
-            /*
-            Product newProduct = new Product()
-            {
-                Description = product.Description,
-                Name = product.Name,
-                Price = product.Price,
-                CategoryId = product.Category.Id,
-                ImageUrl = product.ImageUrl
-
-            };
-            */
             var myProduct = _mapper.Map<Product>(product);
 
-            //This is done to avoid an error from the automapper, which is trying to insert a category
             myProduct.Category = null;
             _productsRepo.AddProduct(myProduct);
         }
@@ -67,32 +50,6 @@ namespace ShoppingCart.Application.Services
         {
             var products = _productsRepo.GetProducts().ProjectTo<ProductViewModel>(_mapper.ConfigurationProvider);
             return products;
-            //To check wether this works
-            //Demonstrate alternative way with ProjectTo
-            //var products = _productsRepo.GetProducts();
-            //var result = _mapper.Map<IQueryable<Product>, IQueryable<ProductViewModel>>(products);
-
-            //return result;
-
-            //Different Method for mapping
-            //var products2 = _productsRepo.GetProducts().ProjectTo<ProductViewModel>(_mapper.ConfigurationProvider);
-
-            //Domain >> ViewModels
-            //Old Method used
-            /*
-            var list = from p in _productsRepo.GetProducts()
-                       select new ProductViewModel()
-                       {
-                           Id = p.ID,
-                           Description = p.Description,
-                           Name = p.Name,
-                           Price = p.Price,
-                           Category = new CategoryViewModel() { Id = p.Category.Id, Name = p.Category.Name },
-                           ImageUrl = p.ImageUrl
-                       };
-            return list;
-            */
-            
         }
 
         public IQueryable<ProductViewModel> GetProducts(string keyword)

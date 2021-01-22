@@ -19,9 +19,8 @@ namespace ShoppingCart.Data.Repositories
 
         public Guid AddProduct(Product p)
         {
-            //Shopping
             _context.Products.Add(p);
-            _context.SaveChanges(); //Saves permanently into the database
+            _context.SaveChanges();
             return p.ID;
         }
 
@@ -39,8 +38,6 @@ namespace ShoppingCart.Data.Repositories
 
         public Product GetProduct(Guid id)
         {
-            //Single or default will return ONE product. or null
-            //return _context.Products.Include(x=>x.Category).SingleOrDefault(x => x.ID == id);
             return _context.Products.SingleOrDefault(x => x.ID == id);
         }
 
