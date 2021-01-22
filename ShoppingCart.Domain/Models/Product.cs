@@ -31,6 +31,7 @@ namespace ShoppingCart.Domain.Models
         [ForeignKey("Category")]
         public int CategoryId { get; set; } //This is the actual foreign key; this is a way how to address the relationship
 
+        [Required]
         public string ImageUrl { get; set; }
 
         public int Stock { get; set; }

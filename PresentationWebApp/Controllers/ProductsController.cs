@@ -95,10 +95,10 @@ namespace PresentationWebApp.Controllers
                             f.CopyTo(stream);
                         }
                         data.ImageUrl = @"\images\" + newFileName;
-                    }
 
-                    _productsService.AddProduct(data);
-                    TempData["feedback"] = "Product was added Successfully";
+                        _productsService.AddProduct(data);
+                        TempData["feedback"] = "Product was added Successfully";
+                    }                                     
                 }
             }
             catch (Exception e) {
