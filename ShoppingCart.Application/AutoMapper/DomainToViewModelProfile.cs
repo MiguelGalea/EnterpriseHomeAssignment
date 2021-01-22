@@ -12,14 +12,17 @@ namespace ShoppingCart.Application.AutoMapper
     public class DomainToViewModelProfile: Profile
     {
         public DomainToViewModelProfile() {
-            CreateMap<Product, ProductViewModel>();//Since names are the same .ForMember(x=>x.Name, opt=>opt.MapFrom(src=>src.Name));
-            //Informing the automapper library that we are mapping (linking) Product Class onto the ProductViewModel
+            CreateMap<Product, ProductViewModel>();
             
             CreateMap<Category, CategoryViewModel>();
 
             CreateMap<Member, MemberViewModel>();
 
             CreateMap<Cart, CartViewModel>();
+
+            CreateMap<Order, OrderViewModel>();
+
+            CreateMap<OrderDetail, OrderDetailViewModel>();
         }
     }
 }

@@ -22,12 +22,6 @@
                             <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Support" asp-action="Contact">Contact Us</a>
-                        </li>
-                        <li class="nav-item">
                             <a class="nav-link" asp-area="" asp-controller="Products" asp-action="Index">Products</a>
                         </li>
                         <li class="nav-item">
@@ -40,23 +34,27 @@
     </header>
     <div class="container">
         <main role="main" class="pb-3">
-            
+
             @if (TempData["feedback"] != null)
             {
                 <div class="alert alert-primary" role="alert">
                     @TempData["feedback"]
-                </div>
+                </div>            
+            }
+
+            @if (TempData["success"] != null)
+            {
+                <div class="alert alert-success" role="alert">
+                    @TempData["success"]
+                </div>            
             }
 
             @if (TempData["warning"] != null)
             {
                 <div class="alert alert-danger" role="alert">
                     @TempData["warning"]
-                </div>
+                </div>            
             }
-
-
-
             @RenderBody()
         </main>
     </div>

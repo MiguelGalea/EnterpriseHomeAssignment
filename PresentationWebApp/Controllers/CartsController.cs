@@ -15,12 +15,14 @@ namespace PresentationWebApp.Controllers
     {
         private readonly IProductsService _productsService;
         private readonly ICartsService _cartsService;
+        private readonly IOrderService _orderService;
         private IHostingEnvironment _env;
 
-        public CartsController(IProductsService productsService, ICartsService cartsService, IHostingEnvironment env)
+        public CartsController(IProductsService productsService, ICartsService cartsService, IOrderService orderService, IHostingEnvironment env)
         {
             _productsService = productsService;
             _cartsService = cartsService;
+            _orderService = orderService;
             _env = env;
         }
 
@@ -59,7 +61,7 @@ namespace PresentationWebApp.Controllers
                         _cartsService.DeleteCartProduct(prod.Id);
 
                         _cartsService.AddCartProduct(cartProd);
-                        TempData["feedback"] = "Product added to cart successfully";
+                        TempData["success"] = "Product added to cart successfully";
                     }
                 }
 
@@ -72,7 +74,7 @@ namespace PresentationWebApp.Controllers
 
                     _cartsService.AddCartProduct(cart);
 
-                    TempData["feedback"] = "Product added to cart successfully";
+                    TempData["success"] = "Product added to cart successfully";
                 }
             }
             catch
@@ -108,6 +110,23 @@ namespace PresentationWebApp.Controllers
 
             return RedirectToAction("Index");
 
+        }
+
+        [Authorize(Roles = "User, Admin")]
+        public IActionResult Checkout()
+        {
+            try
+            {
+                _orderService.Checkout(User.Identity.Name);
+
+                TempData["success"] = "Checkout was successful";
+            }
+            catch (Exception ex)
+            {
+                TempData["warning"] = "Checkout was not successful";
+            }
+
+            return RedirectToAction("Index", "Products");
         }
     }
 }

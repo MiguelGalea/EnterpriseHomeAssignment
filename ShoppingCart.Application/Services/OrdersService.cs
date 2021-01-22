@@ -1,51 +1,65 @@
-﻿using ShoppingCart.Application.Interfaces;
+﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
+using ShoppingCart.Application.Interfaces;
+using ShoppingCart.Application.ViewModels;
+using ShoppingCart.Domain.Interfaces;
 using ShoppingCart.Domain.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace ShoppingCart.Application.Services
 {
     public class OrdersService: IOrderService
     {
+        private IMapper _mapper;
+        private IOrdersRepository _ordersRepo;
+        private ICartsRepository _cartsRepo;
 
-        /*
-            approach - storing items in cart table in db
-            a) user must be logged in
-            b) in the checkout method you need to fetch list of cart items from db
-
-            approach - storing items in cart in the controller
-            a) in the checkout method you need to pass the list from the Controller to the checkout
-
-            approach - storing items in cart in a cookie
-            a) user may not be logged in
-            b) in the checkout method you ened to pass the list from the Controller after you ahve reasd the list from the cookie and parsed it to the checkout
-         */
+        public OrdersService(IOrdersRepository ordersRepository, ICartsRepository cartsRepository , IMapper mapper)
+        {
+            _mapper = mapper;
+            _ordersRepo = ordersRepository;
+            _cartsRepo = cartsRepository;
+        }        
 
         public void Checkout(string email)
         {
-            //1. Get a list of products that have been added to the cart for the given email (from the db, from cookie, from memory)
+            //1. Get a list of products that have been added to the cart for the given email (from the db)
+            _cartsRepo.GetCart(email);
 
-            //2. Loop within the list of products to check quantity from the stock
-            //if you find a product with quantity > stock - throw new Exception("Not enough stock"); OR
-            //if you find a product with quantity > stock - return false;
+            //2. loop within the list of products to check qty from the stock
 
-            //3. Create Order
-            Guid orderId = Guid.NewGuid();
-            Order o = new Order();
-            o.Id = orderId;
-            //continue setting up other properties
+            //3. Create order
+            Order order = new Order();
+            order.DateTime = DateTime.Now;
+            order.UserEmail = email;
+            order.Id = Guid.NewGuid();
 
-            //4. Loop with the list of products and create and OrderDetail for each of the products
-            // start of loop
-            OrderDetail detail = new OrderDetail();
-            detail.OrderFK = orderId;
-            //continue setting up other properties
+            //3.1. Call the Addorder from inside the IOrdersRepository (this can be merged with step 3)
+            _ordersRepo.AddOrder(order);
 
-            //end of loop
+            //4. loop with the list of products and create an OrderDetail Instance for each of the products
+            IList<CartViewModel> userCart = _cartsRepo.GetCart(email).ProjectTo<CartViewModel>(_mapper.ConfigurationProvider).ToList<CartViewModel>();
 
-            //5. Call the AddOrder from inside the IOrdersRepository (can be merged with step 3)
-            //6. Loop again to Call the AddOrderDetail from inside the IOrdersRepository (can be merged with step 4)
+            foreach (var c in userCart)
+            {
+                OrderDetail orderDetail = new OrderDetail();
+                orderDetail.OrderFK = order.Id;
+                orderDetail.ProductFK = c.Product.Id;
+                orderDetail.Quantity = c.Quantity;
+                orderDetail.Price = c.Product.Price;
+
+                _ordersRepo.AddOrderDetail(orderDetail);
+            }
+
+            foreach(var c in userCart)
+            {
+                var deleteCart = _cartsRepo.GetCartProduct(c.Id);
+
+                _cartsRepo.DeleteCartProduct(deleteCart);
+            }
         }
     }
 }
